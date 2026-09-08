@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= car.brand %>
+            <%= car.model %>
+    </title>
+
+
+
+
+</head>
+
+<body>
+    <h1>
+        <%= car.brand %> - <%= car.model %>
+    </h1>
+    <p>Year: <%= car.year %>
+    </p>
+    <p>Is Electric: <%= car.isElectric ? 'Yes' : 'No' %>
+    </p>
+
+    <a href="/cars/<%= car._id %>/edit">Edit Cars</a>
+
+    <form action="/cars/<%= car._id %>?_method=DELETE" method="POST"></form>
+    <a href="/cars">Back To All Cars</a>
+
+
+</body>
+
+</html>

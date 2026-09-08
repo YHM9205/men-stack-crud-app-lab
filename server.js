@@ -78,7 +78,7 @@ app.get('/cars/new', (req,res)=>{
 
 //Create to respons
 app.post('/cars', async (req,res)=>{
-    req.body.isElectric = Boolean(req.re.body.isElectric)
+    req.body.isElectric = Boolean(req.body.isElectric)
     await Car.create(req.body)
     res.redirect('/cars')
 })
@@ -86,10 +86,17 @@ app.post('/cars', async (req,res)=>{
 // allcars
 
 app.get('/cars', async (req,res)=>{
-    const allCars = await car.find()
+    const allCars = await Car.find()
     res.render('all-cars.ejs', {cars: allCars})
 })
 
+
+// by id
+
+app.get('/cars/:carId', async (req,res)=>{
+    const foundCar = await Car.findById(req.params.carId)
+    res.render('car-details.ejs', {car: foundCar})
+})
 
  
  
