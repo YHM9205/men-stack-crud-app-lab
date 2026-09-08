@@ -61,11 +61,25 @@ conntectToDB()
 
 // Routes go here
 
+app.get('/test', (req,res)=>{
+    res.send('Server is running test')
+})
 
 
+app.get('/', (req,res)=>{
+    res.render('index.ejs')
+})
 
+//new route
+app.get('/plants/new', (req,res)=>{
+    res.render('plants/new.ejs')
+})
 
-
+//Create to respons
+app.post('/plants', async (req,res)=>{
+    await Plant.create(req.body)
+    res.redirect('/plants')
+})
 
 
  
