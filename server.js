@@ -5,6 +5,7 @@ const dotenv = require("dotenv").config() //this allows me to use my .env values
 const mongoose = require("mongoose")
 const morgan = require("morgan")
 const methodOverride = require("method-override")
+const Car = require("./models/car")
 
 
 
@@ -70,15 +71,16 @@ app.get('/', (req,res)=>{
     res.render('index.ejs')
 })
 
-//new route
-app.get('/plants/new', (req,res)=>{
-    res.render('plants/new.ejs')
+// new route
+app.get('/cars/new', (req,res)=>{
+    res.render('new-car.ejs')
 })
 
 //Create to respons
-app.post('/plants', async (req,res)=>{
-    await Plant.create(req.body)
-    res.redirect('/plants')
+app.post('/cars', async (req,res)=>{
+    req.body.isElectric = Boolean(req.re.body.isElectric)
+    await Car.create(req.body)
+    res.redirect('/cars')
 })
 
 
