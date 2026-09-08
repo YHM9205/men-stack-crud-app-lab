@@ -83,6 +83,13 @@ app.post('/cars', async (req,res)=>{
     res.redirect('/cars')
 })
 
+// allcars
+
+app.get('/cars', async (req,res)=>{
+    const allCars = await car.find()
+    res.render('all-cars.ejs', {cars: allCars})
+})
+
 
  
  
