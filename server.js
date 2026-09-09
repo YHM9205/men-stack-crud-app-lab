@@ -28,13 +28,13 @@ app.use(morgan("dev")) // logs the requests as they are sent to our sever in the
 
 
 
-async function conntectToDB(){ //connection to the database
-    try{
+async function conntectToDB() { //connection to the database
+    try {
         await mongoose.connect(process.env.MONGODB_URI)
         console.log("Connected to Database")
     }
-    catch(error){
-        console.log("Error Occured",error)
+    catch (error) {
+        console.log("Error Occured", error)
     }
 }
 
@@ -62,22 +62,22 @@ conntectToDB()
 
 // Routes go here
 
-app.get('/test', (req,res)=>{
+app.get('/test', (req, res) => {
     res.send('Server is running test')
 })
 
 
-app.get('/', (req,res)=>{
+app.get('/', (req, res) => {
     res.render('index.ejs')
 })
 
 // new route
-app.get('/cars/new', (req,res)=>{
+app.get('/cars/new', (req, res) => {
     res.render('new-car.ejs')
 })
 
 //Create to respons
-app.post('/cars', async (req,res)=>{
+app.post('/cars', async (req, res) => {
     req.body.isElectric = Boolean(req.body.isElectric)
     await Car.create(req.body)
     res.redirect('/cars')
@@ -85,30 +85,40 @@ app.post('/cars', async (req,res)=>{
 
 // allcars
 
-app.get('/cars', async (req,res)=>{
+app.get('/cars', async (req, res) => {
     const allCars = await Car.find()
-    res.render('all-cars.ejs', {cars: allCars})
+    res.render('all-cars.ejs', { cars: allCars })
 })
 
 
 // by id
 
-app.get('/cars/:carId', async (req,res)=>{
+app.get('/cars/:carId', async (req, res) => {
     const foundCar = await Car.findById(req.params.carId)
-    res.render('car-details.ejs', {car: foundCar})
+    res.render('car-details.ejs', { car: foundCar })
 })
 
 // Edit
 
+app.put('/cars/:carId', async (req, res) => {
+    req.body.isElectric = Boolean(req.body.isElectric)
+    await Car.findByIdAndUpdate(req.params.carId, req.body)
+    res.redirect(`/cars/${req.params.carId}`)
+})
 
- 
- 
- 
- 
+// delete
+
+app.delete('/cars/:carId', async (req, res) => {
+    await Car.findByIdAndDelete(req.params.carId)
+    res.redirect('/cars')
+})
 
 
 
 
-app.listen(3000,()=>{
+
+
+
+app.listen(3000, () => {
     console.log("Listening on port " + 3000)
 }) // Listen on port 3000
